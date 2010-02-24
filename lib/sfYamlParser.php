@@ -90,11 +90,7 @@ class sfYamlParser
         }
         else
         {
-          if (preg_match('/^([^ ]+)\: +({.*?)$/', $values['value'], $matches))
-          {
-            $data[] = array($matches[1] => sfYamlInline::load($matches[2]));
-          }
-          elseif (isset($values['leadspaces'])
+          if (isset($values['leadspaces'])
             && ' ' == $values['leadspaces']
             && preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\{].*?) *\:(\s+(?P<value>.+?))?\s*$#', $values['value'], $matches))
           {
