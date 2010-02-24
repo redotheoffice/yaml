@@ -8,7 +8,10 @@ yaml: |
   - item    : Super Hoop
   - item    : Basketball
     quantity: 1
-  - item    : Big Shoes
+  - item: 
+      name: Big Shoes
+      nick: Biggies
+    quantity: 1
 php: | 
   array (
     array (
@@ -19,7 +22,11 @@ php: |
       'quantity' => 1,
     ),
     array (
-      'item' => 'Big Shoes',
+      'item' => array(
+        'name' => 'Big Shoes',
+        'nick' => 'Biggies'
+      ),
+      'quantity' => 1
     )
   )
 ---

@@ -102,7 +102,7 @@ class sfYamlParser
             $block = $values['value'];
             if (!$this->isNextLineIndented())
             {
-              $block .= "\n".$this->getNextEmbedBlock();
+              $block .= "\n".$this->getNextEmbedBlock($this->getCurrentLineIndentation()+2);
             }
 
             $data[] = $parser->parse($block);
@@ -286,17 +286,25 @@ class sfYamlParser
   /**
    * Returns the next embed block of YAML.
    *
+   * @param integer $indentation The indent level at which the block is to be read, or null for default
    * @return string A YAML string
    */
-  protected function getNextEmbedBlock()
+  protected function getNextEmbedBlock($indentation = null)
   {
     $this->moveToNextLine();
 
-    $newIndent = $this->getCurrentLineIndentation();
-
-    if (!$this->isCurrentLineEmpty() && 0 == $newIndent)
+    if (null === $indentation)
     {
-      throw new InvalidArgumentException(sprintf('Indentation problem at line %d (%s)', $this->getRealCurrentLineNb() + 1, $this->currentLine));
+      $newIndent = $this->getCurrentLineIndentation();
+  
+      if (!$this->isCurrentLineEmpty() && 0 == $newIndent)
+      {
+        throw new InvalidArgumentException(sprintf('Indentation problem at line %d (%s)', $this->getRealCurrentLineNb() + 1, $this->currentLine));
+      }
+    }
+    else
+    {
+      $newIndent = $indentation;
     }
 
     $data = array(substr($this->currentLine, $newIndent));
